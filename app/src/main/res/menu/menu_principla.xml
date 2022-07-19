@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nuevoJuego"
+        android:title="Nuevo Juego" />
+    <item
+        android:id="@+id/jugarOnline"
+        android:title="Jugar Online" />
+    <item
+        android:id="@+id/salir"
+        android:title="Salir" />
+</menu>

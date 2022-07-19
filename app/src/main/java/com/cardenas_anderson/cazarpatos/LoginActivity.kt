@@ -1,11 +1,17 @@
 package com.cardenas_anderson.cazarpatos
 import android.content.Intent
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import java.util.regex.Pattern
+
+val EMAIL_ADDRESS_PATTERN: Pattern = Pattern.compile(
+    "[a-zA-Z0-9+._%-+]{1,256}" + "@" + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" +
+            "." + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+")
 
 class LoginActivity : AppCompatActivity() {
     lateinit var manejadorArchivo: FileHandler
@@ -22,9 +28,9 @@ class LoginActivity : AppCompatActivity() {
         //Inicialización de variables
 
         // Manejadores de Archivos
-        //manejadorArchivo = SharedPreferencesManager(this)
+        manejadorArchivo = SharedPreferencesManager(this)
         //manejadorArchivo = EncriptedSharedPreferencesManager(this)
-        manejadorArchivo = FileExternalManager(this)
+        //manejadorArchivo = FileExternalManager(this)
 
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
@@ -64,13 +70,21 @@ class LoginActivity : AppCompatActivity() {
             editTextEmail.requestFocus()
             return false
         }
+        // exámen validar formato email
+        if(!EMAIL_ADDRESS_PATTERN.matcher(email).matches()){
+            editTextEmail.setError("El email no es válido")
+            //Toast.makeText(this,"Email no válido",Toast.LENGTH_SHORT).show();
+            return false
+        }
+
         if (clave.isEmpty()) {
             editTextPassword.setError("La clave es obligatoria")
             editTextPassword.requestFocus()
             return false
         }
-        if (clave.length < 3) {
-            editTextPassword.setError("La clave debe tener al menos 3 caracteres")
+        // exámen, validar q sea al menos de 8 caracteres
+        if (clave.length < 8) {
+            editTextPassword.setError("La clave debe tener al menos 8 caracteres")
             editTextPassword.requestFocus()
             return false
         }
